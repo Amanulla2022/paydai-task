@@ -27,9 +27,26 @@ const tasksSlice = createSlice({
     setFilter: (state, action) => {
       state.filter = action.payload;
     },
+    editTask: (state, action) => {
+      const { id, title, description, dueDate, completed } = action.payload;
+      const task = state.tasks.find((task) => task.id === id);
+
+      if (task) {
+        task.title = title || task.title;
+        task.description = description || task.description;
+        task.dueDate = dueDate || task.dueDate;
+        task.completed = completed !== undefined ? completed : task.completed;
+      }
+      localStorage.setItem("tasks", JSON.stringify(state.tasks));
+    },
   },
 });
 
-export const { addTask, deleteTask, toggleTaskCompletion, setFilter } =
-  tasksSlice.actions;
+export const {
+  addTask,
+  deleteTask,
+  toggleTaskCompletion,
+  setFilter,
+  editTask,
+} = tasksSlice.actions;
 export default tasksSlice.reducer;

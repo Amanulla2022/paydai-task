@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddTask from "./../components/AddTask";
 import Headding from "../components/Headding";
 import Tasks from "../components/Tasks";
 import TaskFilter from "./../components/TaskFilter";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const theme = useSelector((state) => state.theme.mode);
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
   return (
     <>
       <Headding />

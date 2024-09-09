@@ -1,12 +1,14 @@
 import React from "react";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
+import { useSelector } from "react-redux";
 
-const TaskItem = ({ task, toggleCheckBox, openDeleteModal }) => {
+const TaskItem = ({ task, toggleCheckBox, openDeleteModal, openEditModel }) => {
+  const theme = useSelector((state) => state.theme.mode);
   return (
     <div
       className={`p-4 border rounded-md shadow-md w-full md:w-80 ${
-        task.completed ? "bg-green-100" : ""
-      }`}
+        task.completed ? "bg-white" : ""
+      } ${theme === "dark" ? "bg-gray-300" : "bg-green-100"}`}
     >
       <h3 className="text-lg font-bold underline">{task.title}</h3>
       <p>{task.description}</p>
@@ -20,7 +22,7 @@ const TaskItem = ({ task, toggleCheckBox, openDeleteModal }) => {
         />
         <p
           className={`pr-2 ${
-            task.completed ? "text-red-600 line-through" : "text-green-600"
+            task.completed ? "text-green-600 line-through" : "text-red-600"
           }`}
         >
           {task.completed ? "It's Completed" : "It's Incomplete"}
@@ -29,7 +31,13 @@ const TaskItem = ({ task, toggleCheckBox, openDeleteModal }) => {
           onClick={() => openDeleteModal(task)}
           className="text-red-500 ml-4"
         >
-          <MdDelete className="text-2xl md:text-4xl" />
+          <MdDelete className="icons" />
+        </button>
+        <button
+          onClick={() => openEditModel(task)}
+          className="text-green-500 ml-4"
+        >
+          <MdModeEditOutline className="icons" />
         </button>
       </div>
     </div>

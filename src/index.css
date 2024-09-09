@@ -9,3 +9,31 @@
 .form-input {
   @apply w-full py-2 px-4 text-xl border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
+
+.icons {
+  @apply text-2xl md:text-4xl bg-gray-200 p-[2px] rounded-xl;
+}
+
+.div-modal {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex-item justify-center;
+}
+
+.shadow-modal {
+  @apply bg-white p-6 m-4 rounded-lg w-full max-w-lg relative;
+}
+
+.close-btn {
+  @apply absolute top-2 right-2 text-gray-600 hover:text-red-600;
+}
+
+.modal-btn {
+  @apply px-4 py-2  rounded-md;
+}
+
+.light {
+  background-color: #ffffff;
+}
+
+.dark {
+  background-color: #1a202c;
+}

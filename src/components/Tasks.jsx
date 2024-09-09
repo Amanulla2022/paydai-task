@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import TaskItem from "./TaskItem";
 import Model from "./Model";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTask, toggleTaskCompletion } from "../redux/taskSlice";
+import { deleteTask, editTask, toggleTaskCompletion } from "../redux/taskSlice";
+import EditModel from "./EditModel";
 
 const Tasks = () => {
   const { tasks, filter } = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
 
+  const theme = useSelector((state) => state.theme.mode);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const filteredTasks = tasks.filter((task) => {
     if (filter === "Completed") return task.completed;
@@ -42,9 +46,28 @@ const Tasks = () => {
     }
   };
 
+  const openEditModel = (task) => {
+    setSelectedTask(task);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModel = () => {
+    setSelectedTask(null);
+    setIsEditModalOpen(false);
+  };
+
+  const confirmEdit = (updatedTask) => {
+    dispatch(editTask(updatedTask));
+    closeEditModel();
+  };
+
   return (
     <div className="flex-item flex-col justify-center w-full md:w-4/5">
-      <h1 className="text-center font-semibold text-xl md:text-2xl">
+      <h1
+        className={`text-center font-semibold text-xl md:text-2xl  ${
+          theme === "dark" ? "text-white" : "text-black"
+        }`}
+      >
         All Tasks!
       </h1>
       <div className="flex flex-wrap justify-center gap-4 p-4 w-full">
@@ -55,10 +78,17 @@ const Tasks = () => {
               task={task}
               toggleCheckBox={() => toggleCheckBox(task.id)}
               openDeleteModal={() => openDeleteModal(task)}
+              openEditModel={() => openEditModel(task)}
             />
           ))
         ) : (
-          <p className="text-center w-full font-bold">No tasks found!</p>
+          <p
+            className={`text-center w-full font-bold ${
+              theme === "dark" ? "text-white" : "text-black"
+            }`}
+          >
+            No tasks found!
+          </p>
         )}
       </div>
       <Model
@@ -66,6 +96,12 @@ const Tasks = () => {
         selectedTask={selectedTask}
         confirmDelete={confirmDelete}
         onClose={closeModal}
+      />
+      <EditModel
+        isOpen={isEditModalOpen}
+        selectedTask={selectedTask}
+        onClose={closeEditModel}
+        onSave={confirmEdit}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../redux/taskSlice";
 
 const AddTask = () => {
@@ -11,6 +11,7 @@ const AddTask = () => {
   });
 
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.mode);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -87,7 +88,9 @@ const AddTask = () => {
             onChange={handleInputChange}
           />
           <button
-            className="bg-black text-white text-lg rounded-xl p-2 md:ml-4"
+            className={`${
+              theme === "light" ? "text-white bg-black" : "text-black bg-white"
+            } text-lg rounded-xl p-2 md:ml-4`}
             type="submit"
           >
             Add Task

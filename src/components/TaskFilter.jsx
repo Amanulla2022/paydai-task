@@ -4,11 +4,19 @@ import { setFilter } from "../redux/taskSlice";
 
 const TaskFilter = () => {
   const filter = useSelector((state) => state.tasks.filter);
+  const theme = useSelector((state) => state.theme.mode);
+
   const dispatch = useDispatch();
 
   return (
     <div className="flex-item flex-row md:flex-col justify-center gap-4 p-4 border-r">
-      <h5 className="font-semibold text-xl">Filter Option:</h5>
+      <h5
+        className={`font-semibold text-xl ${
+          theme === "dark" ? "text-white" : "text-black"
+        }`}
+      >
+        Filter By:
+      </h5>
       {["All", "Completed", "Incompleted"].map((f) => (
         <button
           key={f}
