@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTask } from "../redux/taskSlice";
 
-const AddTask = ({ tasks, setTasks }) => {
+const AddTask = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     dueDate: "",
     completed: false,
   });
+
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     setFormData({
@@ -18,7 +22,7 @@ const AddTask = ({ tasks, setTasks }) => {
   const submitForm = (e) => {
     e.preventDefault();
 
-    if (!formData.title && !formData.description) {
+    if (!formData.title && !formData.description && !formData.dueDate) {
       console.log("Please fill all the details!");
       return;
     }
@@ -33,12 +37,22 @@ const AddTask = ({ tasks, setTasks }) => {
       return;
     }
 
+    if (!formData.dueDate) {
+      console.log("Please enter duedate of task!");
+      return;
+    }
+
+    if (new Date(formData.dueDate) < new Date()) {
+      console.log("Please select a valid future date!");
+      return;
+    }
+
     const newTask = {
       id: Date.now(),
       ...formData,
     };
-    localStorage.setItem("tasks", JSON.stringify(newTask));
-    setTasks([...tasks, newTask]);
+
+    dispatch(addTask(newTask));
     setFormData({ title: "", description: "", dueDate: "" });
   };
 
