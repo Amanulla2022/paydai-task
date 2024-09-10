@@ -2,6 +2,8 @@
 
     - This is a simple Task Management App built using React, Tailwind CSS, Redux. The app allows users to manage tasks, including adding, editing, filtering, and deleting tasks. It also supports theme toggling light/dark. It uses localStorage to persist between page reloads.
 
+# [Hosted_Link](https://paydai-task.vercel.app/)
+
 ## Features
 
     - Add Task: Users can create a new tasks with title, descriptionand sue date.
