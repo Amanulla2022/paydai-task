@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const initialState = {
   tasks: JSON.parse(localStorage.getItem("tasks")) || [],
@@ -12,16 +13,19 @@ const tasksSlice = createSlice({
     addTask: (state, action) => {
       state.tasks.push(action.payload);
       localStorage.setItem("tasks", JSON.stringify(state.tasks));
+      toast.success("Task added successfully!");
     },
     deleteTask: (state, action) => {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
       localStorage.setItem("tasks", JSON.stringify(state.tasks));
+      toast.success("Task deleted successfully!");
     },
     toggleTaskCompletion: (state, action) => {
       const task = state.tasks.find((task) => task.id === action.payload);
       if (task) {
         task.completed = !task.completed;
         localStorage.setItem("tasks", JSON.stringify(state.tasks));
+        toast.success("Task updated successfully!");
       }
     },
     setFilter: (state, action) => {
@@ -38,6 +42,7 @@ const tasksSlice = createSlice({
         task.completed = completed !== undefined ? completed : task.completed;
       }
       localStorage.setItem("tasks", JSON.stringify(state.tasks));
+      toast.success("Task edited successfully!");
     },
   },
 });

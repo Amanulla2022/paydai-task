@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../redux/taskSlice";
+import { toast } from "react-toastify";
 
 const AddTask = () => {
   const [formData, setFormData] = useState({
@@ -24,27 +25,27 @@ const AddTask = () => {
     e.preventDefault();
 
     if (!formData.title && !formData.description && !formData.dueDate) {
-      console.log("Please fill all the details!");
+      toast.error("Please fill all the details!");
       return;
     }
 
     if (!formData.title) {
-      console.log("Please enter title of task!");
+      toast.error("Please enter title of task!");
       return;
     }
 
     if (!formData.description) {
-      console.log("Please enter description of task!");
+      toast.error("Please enter description of task!");
       return;
     }
 
     if (!formData.dueDate) {
-      console.log("Please enter duedate of task!");
+      toast.error("Please enter duedate of task!");
       return;
     }
 
     if (new Date(formData.dueDate) < new Date()) {
-      console.log("Please select a valid future date!");
+      toast.error("Please select a valid future date!");
       return;
     }
 

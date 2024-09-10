@@ -4,6 +4,7 @@ import Model from "./Model";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTask, editTask, toggleTaskCompletion } from "../redux/taskSlice";
 import EditModel from "./EditModel";
+import Search from "./Search";
 
 const Tasks = () => {
   const { tasks, filter } = useSelector((state) => state.tasks);
@@ -15,11 +16,17 @@ const Tasks = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === "Completed") return task.completed;
-    if (filter === "Incompleted") return !task.completed;
-    return true;
-  });
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredTasks = tasks
+    .filter((task) => {
+      if (filter === "Completed") return task.completed;
+      if (filter === "Incompleted") return !task.completed;
+      return true;
+    })
+    .filter((task) =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   const toggleCheckBox = (taskId) => {
     dispatch(toggleTaskCompletion(taskId));
@@ -70,6 +77,7 @@ const Tasks = () => {
       >
         All Tasks!
       </h1>
+      <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className="flex flex-wrap justify-center gap-4 p-4 w-full">
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task) => (
